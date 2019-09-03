@@ -1,0 +1,9 @@
+defaults: &defaults
+  host: redis
+  port: 6379
+development:
+  <<: *defaults
+test:
+  <<: *defaults
+production:
+  <<: *defaults

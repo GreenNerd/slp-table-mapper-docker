@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 128
+  username: postgres
+  password:
+  host: db
+
+development:
+  <<: *default
+  database: slp_table_mapper_development
+
+test:
+  <<: *default
+  database: slp_table_mapper_test
+
+production:
+  <<: *default
+  database: slp_table_mapper_production

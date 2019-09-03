@@ -1,0 +1,37 @@
+D, [2019-08-30T10:56:54.019775 #1] DEBUG -- :   [1m[35m (2095.7ms)[0m  [1m[35mCREATE DATABASE "slp_table_mapper_production" ENCODING = 'unicode'[0m
+D, [2019-08-30T10:56:57.928344 #1] DEBUG -- :   [1m[35mSQL (3.2ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+D, [2019-08-30T10:56:57.935703 #1] DEBUG -- :   [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "namespaces" CASCADE[0m
+D, [2019-08-30T10:56:57.990348 #1] DEBUG -- :   [1m[35m (53.6ms)[0m  [1m[35mCREATE TABLE "namespaces" ("id" bigserial primary key, "gid" character varying, "db_url" character varying, "db_type" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+D, [2019-08-30T10:56:57.992442 #1] DEBUG -- :   [1m[35m (1.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "table_mappers" CASCADE[0m
+D, [2019-08-30T10:56:58.012669 #1] DEBUG -- :   [1m[35m (19.4ms)[0m  [1m[35mCREATE TABLE "table_mappers" ("id" bigserial primary key, "namespace_id" bigint, "type" character varying, "event" integer, "action_type" character varying, "payload" jsonb, "state" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+D, [2019-08-30T10:56:58.040305 #1] DEBUG -- :   [1m[35m (6.1ms)[0m  [1m[35mCREATE  INDEX  "index_table_mappers_on_namespace_id" ON "table_mappers"  ("namespace_id")[0m
+D, [2019-08-30T10:56:58.058929 #1] DEBUG -- :   [1m[35m (14.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+D, [2019-08-30T10:56:58.083711 #1] DEBUG -- :   [1m[35m (3.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+D, [2019-08-30T10:56:58.086543 #1] DEBUG -- :   [1m[35m (2.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20190828030241)[0m
+D, [2019-08-30T10:56:58.087666 #1] DEBUG -- :   [1m[35m (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20190821015944),
+(20190821023423);
+
+[0m
+D, [2019-08-30T10:56:58.103251 #1] DEBUG -- :   [1m[35m (11.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+D, [2019-08-30T10:56:58.115608 #1] DEBUG -- :   [1m[36mActiveRecord::InternalMetadata Load (1.9ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+D, [2019-08-30T10:56:58.121751 #1] DEBUG -- :   [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+D, [2019-08-30T10:56:58.125813 #1] DEBUG -- :   [1m[36mActiveRecord::InternalMetadata Create (2.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "production"], ["created_at", "2019-08-30 02:56:58.122554"], ["updated_at", "2019-08-30 02:56:58.122554"]]
+D, [2019-08-30T10:56:58.127029 #1] DEBUG -- :   [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+D, [2019-08-30T10:56:58.131515 #1] DEBUG -- :   [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+D, [2019-08-30T10:56:58.132862 #1] DEBUG -- :   [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+D, [2019-08-30T10:56:58.133923 #1] DEBUG -- :   [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+D, [2019-09-03T01:59:10.876249 #1] DEBUG -- :   [1m[35m (0.9ms)[0m  [1m[35mCREATE DATABASE "slp_table_mapper_production" ENCODING = 'unicode'[0m
+D, [2019-09-03T01:59:15.700666 #1] DEBUG -- :   [1m[35m (3.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+D, [2019-09-03T01:59:15.716032 #1] DEBUG -- :   [1m[35m (3.0ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+D, [2019-09-03T01:59:15.721131 #1] DEBUG -- :   [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+D, [2019-09-03T01:59:15.725980 #1] DEBUG -- :   [1m[35m (0.9ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+D, [2019-09-03T01:59:15.730684 #1] DEBUG -- :   [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+D, [2019-09-03T01:59:15.735181 #1] DEBUG -- :   [1m[35m (0.8ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+D, [2019-09-03T02:01:06.159771 #1] DEBUG -- :   [1m[35m (1.8ms)[0m  [1m[35mCREATE DATABASE "slp_table_mapper_production" ENCODING = 'unicode'[0m
+D, [2019-09-03T02:01:09.905718 #1] DEBUG -- :   [1m[35m (3.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+D, [2019-09-03T02:01:09.933965 #1] DEBUG -- :   [1m[35m (4.5ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+D, [2019-09-03T02:01:09.939931 #1] DEBUG -- :   [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+D, [2019-09-03T02:01:09.945912 #1] DEBUG -- :   [1m[35m (1.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+D, [2019-09-03T02:01:09.950900 #1] DEBUG -- :   [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+D, [2019-09-03T02:01:09.955645 #1] DEBUG -- :   [1m[35m (0.9ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]

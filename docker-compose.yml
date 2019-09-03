@@ -1,0 +1,62 @@
+version: '3'
+services:
+  point_db:
+    image: postgres:9.5-alpine
+    volumes:
+      - ./data/point_data/postgresql:/var/lib/postgresql/data
+      - ./etc/point_data/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf
+    ports:
+      - '5433:5433'
+
+  db:
+    container_name: 'postgresql'
+    image: postgres:9.5-alpine
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+      - ./etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf
+    expose:
+      - '5432'
+
+  redis:
+    container_name: 'redis'
+    image: redis:3.2-alpine
+    volumes:
+      - ./data/redis:/data
+    expose:
+      - '6379'
+    restart: on-failure:1
+
+  web:
+    container_name: 'web'
+    image: nginx:1.11.6-alpine
+    volumes:
+      - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - mapper_app
+      - mapper_sidekiq
+    ports:
+      - '8080:8080'
+
+  mapper_app: &mapper_app_base
+    image: registry.cn-hangzhou.aliyuncs.com/skylark/table_mapper:1.0.0
+    env_file:
+      - app.default.env
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./config/secrets.yml:/var/www/slp_table_mapper/config/secrets.yml
+      - ./config/database.yml:/var/www/slp_table_mapper/config/database.yml
+      - ./config/puma.rb:/var/www/slp_table_mapper/config/puma.rb
+      - ./config/redis.yml:/var/www/slp_table_mapper/config/redis.yml
+      - ./config/settings.yml:/var/www/slp_table_mapper/config/settings.yml
+      - ./log/mapper:/var/www/slp_table_mapper/log
+    command: bundle exec puma -C config/puma.rb
+    expose:
+      - '3000'
+    restart: on-failure:1
+
+  mapper_sidekiq:
+    <<: *mapper_app_base
+    command: bundle exec sidekiq
+    expose: []
