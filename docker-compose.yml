@@ -4,7 +4,7 @@ services:
     image: postgres:9.5-alpine
     volumes:
       - ./data/point_data/postgresql:/var/lib/postgresql/data
-      - ./etc/point_data/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./etc/point_data/postgresql/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     ports:
       - '5433:5433'
 
@@ -13,7 +13,7 @@ services:
     image: postgres:9.5-alpine
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
-      - ./etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./etc/postgresql/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     expose:
       - '5432'
 
@@ -38,7 +38,7 @@ services:
       - '8080:8080'
 
   mapper_app: &mapper_app_base
-    image: registry.cn-hangzhou.aliyuncs.com/skylark/table_mapper:1.0.0
+    image: registry.cn-hangzhou.aliyuncs.com/skylark/table_mapper:2.0.0
     env_file:
       - app.default.env
     depends_on:
@@ -58,5 +58,5 @@ services:
 
   mapper_sidekiq:
     <<: *mapper_app_base
-    command: bundle exec sidekiq
+    command: bundle exec sidekiq -L /var/www/slp_table_mapper/log/sidekiq.log
     expose: []
